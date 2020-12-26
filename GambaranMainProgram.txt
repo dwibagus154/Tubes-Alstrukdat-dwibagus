@@ -1,0 +1,119 @@
+Alstrukdat Kelas 1 Kelompok 9
+Sebelum menjalankan program, definisikan terlebih dahulu wahana2 (nama, deskripsi, etc), bahan2 untuk membuat wahana (nama, harga),
+Initial state (duit modal, waktu preparation & main, ukuran petak), antrian pengunjung, serta 4 matriks sebagai peta awal dalam file txt.
+Sebagai gambaran, 4 matriks awal(5x5) dalam urutan:
+* * * * *       * * * * *
+* A - - >       < A - - *
+* - - W *       * - - - *
+* - - O *       * - - - *
+* * V * *       * * V * *
+
+* * ^ * *       * * ^ * *
+* A - - *       * A - - *  
+* - - - >       < - - - *
+* - - - *       * - - - *
+* * * * *       * * * * *
+dapat ditulis dalam file txt sebagai:
+* * * * *
+* A - - >
+* - - W *
+* - - O *
+* * V * *
+
+* * * * *
+< A - - *
+* - - - *
+* - - - *
+* * V * *
+
+* * ^ * *
+* A - - *
+* - - - >
+* - - - *
+* * * * *
+
+* * ^ * *
+* A - - *
+< - - - *
+* - - - *
+* * * * *
+
+edit: setelah gw pikir, gajadi bikin file eksternal pake matriks di atas, untuk save file keadaan wahana2 cukup pake adt wahana yg isinya:
+- nama wahana
+- ADT point (koordinat wahana di matriks)
+- tempat wahana di map (1/2/3/4)
+- harga tiket (setelah *optional upgrade)
+- kapasitas (setelah *optional upgrade)
+
+template base dari map mending dibikin fix aja ya, dengan A di 1,1 dan O di map 1.
+
+Saat program pertama kali dijalankan, akan keluar 3 menu utama:
+1. New Game
+    Meminta nama player baru, kemudian masuk ke preparation phase day 1 dengan kondisi initial state.
+2. Load Game
+    Meminta nama file txt untuk di load. Pastikan format txt nya sama seperti initial state (buat duitnya) dan peta awal (buat kondisi peta).
+3. Exit
+    Keluar program. Gabakal ditulis ke file txt kecuali ngejalanin save file.
+
+Setelah memilih new/load, bakal muncul preparation phase (liat spek). Perintah yg mungkin diinput:
+1. W A S D
+2. Main menu (New, Load, Save, Continue, Exit)
+3. Build (wahana baru di tempat dia berdiri, bakal ngurangin resources, duit, waktu)
+4. Upgrade (wahana di sekitar tempat dia berdiri, bakal ngurangin duit & waktu. kalo di sekitar ada >1 wahana, dikasi pesen pilihan)
+5. Buy (beli resources, ngurangin duit)
+6. Undo
+7. Execute (Ngejalain semua perintah kalo waktunya cukup, kalo dah kelar ke main phase)
+8. Main (Langsung ke main phase tanpa ngejalain, stack dikosongkan)
+
+Saat berpindah ke main phase, bakal nerima perintah:
+1. W A S D
+2. Main menu (New, Load, Save, Continue, Exit)
+3. Serve (duit nambah, liat spek)
+4. Repair (Syarat mesti berdiri di sebelah wahana yg rusak. kalo di sekitar ada >1 wahana, dikasi pesen pilihan.)
+5. Detail (Syarat sama kea repair)
+6. Office (Syarat harus ada dalem office)
+7. Prepare (Masuk ke preparation phase)
+
+Pertanyaan?
+1. Gimana definisiin antrian pengunjung di awal/tengah game? (terutama ttg kesabaran) Gimana cara nambah antrian?
+mau wahana apa aja, tiap harinya queue pengunujung bisa beda2 pake random aja
+2. Fungsi upgrade apa pengaruhnya ke wahana?
+bebas, tapi yg penting tiap kali upgrade harganya naik. durasi jg baru, jd tiap pengunjung ada waktunya dlm naik wahana sblm balik ke queue.
+3. Bisa ga upgrade wahana yg baru di build? (soale spek upgrade hrs berdiri di sblh wahana, tp klo br di build blom ada)
+gabisa, krn secara teknis dia blm ke build kalo ga di exec, mknya hrs ke prep phase
+4. Boleh modifikasi ADT yg udah ada ga? cthnya mesinkar mesinkata
+boleh bebas, agar lbh sesuai sm program
+5. File peta.txt itu isinya gimana? apakah setiap nambah wahana akan di save atau ngga?
+gambar map awal, kalo mo ngerjain bonus (save) berarti perlu ditambah build wahana
+6. ADT Jam buat apa? itu satuan waktu di program gimana konsepnya? Time remainingnya ini ditentuin dri mana?
+7. Implementasi klasifikasi wahana (umur, harga, dll) kyk gimana ya? implementasi ke fungsinya gimana?
+cuma buat deskripsi wahana aja, di office doang. kalo mau namabhin pengunjung ada umur dkk ya  bole aja si.
+8. Driver buat setiap modul mksdnya gimana?
+seperti yg dibikin pas praktikum, buat ngejalanin fungsi2 nya. driver buat ngejalanin adt aja btw. sama adtnya bikin yg perlu2 aja, gausa semua yg pas praktikum.
+9. Ukuran map harus persegi?
+bebas.
+
+tampilan ga fix, perlu ditambah waktu kek step-step jam sampai jatahnya abis atau pindah ke prep
+file eksternal boleh lebih dari yg ditentukan
+
+10. pas ngebuild wahana boleh sebelahan ga, kalo boleh gmn cara bedain 2 wahana tsb krn dri print cuma w doang
+yg bedain wahana kan dari player, jd gamasalah kalo lambangnya sama. pake detail aja sih. 
+11. abis wahana di build itu masi invisble (belum di exec), jadi masi bisa ditembus buat lewat. baru bakal muncul kalo di exec. pas nembus P bisa nimpa W kea kasus office. abis build dia berdiri di wahananya aja.
+12. wasd ga makan waktu, jd ga masalah 
+13. kalo berdiri deket 2 wahana, bikin urutan priritas (cth: atas, kanan, bawah, kiri) buat ngeliat detail/repair dll.
+14. pengunung stlh naik wahana prio nya naik satu. jd bakal di serve duluan stlh itu.
+15. format file external bebas, boleh text csv dll. 
+16. map.txt nanti jadi 4 file berbeda, bkn satu file.
+18. jam geraknya seetelah serve, ga real time. 
+19. waktu pegunjung masuk wahana tergantung durasi serve, waktu di ADT jam jg loncatnya bergantung pada durasi serve bkn durasi wahana. durasi wahana buat nentuin kondisi real-time queue, wahana yg lg dipake, dll.
+
+Asistensi 2
+laporan progress
+1. format input output ga hrs sama persis? ya, tapi harus bisa ngecover adt terutama mesinkata
+2. template laporan dah ada di olimpia
+3. adt graph gimana cara pakenya? liat slide taun lalu
+4. bobot ? gadikasitau
+5. buat waktu durasi terkecil menit, buat implementasi dibebasin ga? ya, bebas.
+6. library gabole selain yg ud dideifinisiin (random, string bole)
+7. di main phase queue mungkin kosong? ya, bole jg quueue cm muncul di hari pertama aja soalnya ga didefinisiin
+
